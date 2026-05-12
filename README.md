@@ -1,7 +1,7 @@
 ## Environment Setup (MiniConda)
 
 1. Clone the repository and fetch branches:
-   - `git clone https://github.com/nexuszhan/Safe-Perception-SLS.git`
+   - `git clone --single-branch --branch main https://github.com/trustworthyrobotics/VISION-SLS.git`
    - `cd Safe-Perception-SLS`
 
 2. Create a Conda environment and install dependencies:
