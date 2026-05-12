@@ -1,9 +1,100 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>My Website</title>
-</head>
-<body>
-  <h1>Hello, this is my website!</h1>
-</body>
-</html>
+---
+layout: default
+title: "VISION-SLS: Safe Perception-Based Control from Learned Visual Representations via System Level Synthesis"
+description: "Robotics: Science & Systems (RSS) 2026"
+authors: 'Antoine P. Leeman*, Shuyu Zhan*, Melanie N. Zeilinger, <a class="author-link" href="https://glenchou.github.io/">Glen Chou</a>'
+institution: "Georgia Institute of Technology, ETH Zurich"
+paper_url: "https://arxiv.org/pdf/2604.24894"
+code_url: "https://github.com/trustworthyrobotics/VISION-SLS"
+arxiv_url: "https://arxiv.org/abs/2604.24894"
+---
+
+<p align="center">
+  <img src="{{ './assets/images/front.png' | relative_url }}" alt="Overview of VISION-SLS" width="850">
+</p>
+
+<h2>Abstract</h2>
+
+<p>
+We propose VISION-SLS, a method for nonlinear output-feedback control from high-resolution RGB images which provides robust constraint satisfaction guarantees under calibrated uncertainty bounds despite partial observability, sensor noise, and nonlinear dynamics. To enable scalability while retaining guarantees, we propose: (i) a learned low-dimensional observation map from pretrained visual features with state-dependent error bounds, and (ii) a causal affine time-varying output-feedback policy optimized via System Level Synthesis (SLS). We develop a scalable, novel solver for the resulting nonconvex program that leverages sequential convex programming coupled with efficient Riccati recursions.
+On two simulated visuomotor tasks (a 4D car and a 10D quadrotor) with $\ge 512\times 512$ pixels and a 59D humanoid task with partial observability, our method
+enables safe, information-gathering behavior that reduces uncertainty while guaranteeing constraint satisfaction with empirically-calibrated error bounds.
+We also validate our method on hardware, safely controlling a ground vehicle from onboard images, outperforming baselines in safety rate and solve times.
+Together, these results show that learned visual abstractions coupled with an efficient solver make SLS-based safe visuomotor output-feedback practical at scale.
+</p>
+
+<h2>Video</h2>
+
+<div class="video-wrapper">
+  <iframe
+    src="https://www.youtube.com/embed/a07cRhBb3xc"
+    title="VISION-SLS video"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen>
+  </iframe>
+</div>
+
+<h2>Method Overview</h2>
+
+<p align="center">
+  <img src="{{ './assets/images/method.png' | relative_url }}" alt="Overview of VISION-SLS" width="450">
+</p>
+<p>
+We integrate reduced learned visual representations into system level synthesis (SLS)-based robust control design and 
+model perception error induced by the reduction with some polynominal depending on some states. 
+In online execution, images are mapped to low-dimensional observations $p(\psi^\textrm{dino}(y))$, approximated by a learned linear map $h^r(x) = Cx$ with bounded error. 
+These observations are fed into an SLS-based dynamic output-feedback controller, 
+which combines the nonlinear nominal trajectory $(\boldsymbol{z}, \boldsymbol{v})$ and feedback gains $K$ to generate safe inputs.
+</p>
+
+
+<h2>Results</h2>
+
+<h3>4D Car with Overhead camera</h3>
+<p align="center">
+  <img src="{{ './assets/images/parking_lot_full.png' | relative_url }}" alt="Overview of VISION-SLS" width="850">
+</p>
+<p>
+We steer a 4D car to a goal position with overhead RGB images as observation. Our method is able to actively reduce the 
+size of reachable sets while guaranteeing safety. 
+</p>
+
+<h3>Humanoid with Partial State Measurement</h3>
+<div class="video-grid">
+  <video controls playsinline preload="metadata">
+    <source src="{{ './assets/videos/G1_backflip_front_h264.mp4' | relative_url }}" type="video/mp4">
+  </video>
+
+  <video controls playsinline preload="metadata">
+    <source src="{{ './assets/videos/G1_backflip_open_h264.mp4' | relative_url }}" type="video/mp4">
+  </video>
+</div>
+
+<p>
+Our method can generate robust close-loop control plan (left) with partial observability for a high-dimensional Unitree G1 
+system with 59 states and 23 inputs. The open-loop controller violates joint limits sometimes.
+</p>
+
+<h3>Hardware</h3>
+<div class="video-grid">
+  <video controls playsinline preload="metadata">
+    <source src="{{ './assets/videos/Turtlebot_ego_h264.mp4' | relative_url }}" type="video/mp4">
+  </video>
+
+  <video controls playsinline preload="metadata">
+    <source src="{{ './assets/videos/Turtlebot_animation_h264.mp4' | relative_url }}" type="video/mp4">
+  </video>
+</div>
+
+<p>
+Our method enables a TurtleBot 4 robot to safely navigate in an office area.
+</p>
+
+<h2>BibTeX</h2>
+
+<pre><code>@inproceedings{LeemanVISIONSLS,
+  title={VISION-SLS: Safe Perception-Based Control from Learned Visual Representations via System Level Synthesis},
+  author={Leeman, Antoine P., Zhan, Shuyu, Zeilinger, Melanie N., and Chou, Glen},
+  booktitle={Proceedings of Robotics: Science and Systems (RSS)},
+  year={2026}
+}</code></pre>
