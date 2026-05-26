@@ -40,11 +40,9 @@ Together, these results show that learned visual abstractions coupled with an ef
   <img src="{{ './assets/images/method.png' | relative_url }}" alt="Overview of VISION-SLS" width="450">
 </p>
 <p>
-We integrate reduced learned visual representations into system level synthesis (SLS)-based robust control design and 
-model perception error induced by the reduction with some polynominal depending on some states. 
-In online execution, images are mapped to low-dimensional observations $p(\psi^\textrm{dino}(y))$, approximated by a learned linear map $h^r(x) = Cx$ with bounded error. 
-These observations are fed into an SLS-based dynamic output-feedback controller, 
-which combines the nonlinear nominal trajectory $(\boldsymbol{z}, \boldsymbol{v})$ and feedback gains $K$ to generate safe inputs.
+VISION-SLS compresses high-dimensional RGB observations into low-dimensional measurements using pretrained DINO features followed by a learned projection. 
+The reduced observation model $h^r(x)$ is paired with a calibrated, state-dependent error bound $F^r(x)$ that overbounds sensor noise and representation error. 
+At runtime, these reduced measurements are passed to a dynamic SLS output-feedback controller, which combines the jointly optimized nonlinear nominal trajectory $(\boldsymbol{z}, \boldsymbol{v})$ with feedback gains $K$ to produce safe control inputs under uncertainty.
 </p>
 
 
@@ -55,8 +53,8 @@ which combines the nonlinear nominal trajectory $(\boldsymbol{z}, \boldsymbol{v}
   <img src="{{ './assets/images/parking_lot_full.png' | relative_url }}" alt="Overview of VISION-SLS" width="850">
 </p>
 <p>
-We steer a 4D car to a goal position with overhead RGB images as observation. Our method is able to actively reduce the 
-size of reachable sets while guaranteeing safety. 
+In the occluded parking-lot task, a 4D car must reach a goal from overhead RGB observations while avoiding obstacles and satisfying state and input limits. 
+VISION-SLS plans through lower-uncertainty regions, tightens constraints using the propagated reachable tube, and keeps closed-loop rollouts collision-free, yielding smaller terminal uncertainty than certainty-equivalent or non-robust baselines.
 </p>
 
 <h3>Humanoid with Partial State Measurement</h3>
@@ -71,8 +69,8 @@ size of reachable sets while guaranteeing safety.
 </div>
 
 <p>
-Our method can generate robust close-loop control plan (left) with partial observability for a high-dimensional Unitree G1 
-system with 59 states and 23 inputs. The open-loop controller violates joint limits sometimes.
+For the 59-state, 23-input Unitree G1 backflip task, VISION-SLS synthesizes a robust closed-loop plan from partial state measurements. 
+The closed-loop rollouts stay inside the computed reachable tubes and satisfy constraints, while open-loop execution of the nominal trajectory can leave the tubes and violate limits under disturbance.
 </p>
 
 <h3>Hardware</h3>
@@ -87,7 +85,8 @@ system with 59 states and 23 inputs. The open-loop controller violates joint lim
 </div>
 
 <p>
-Our method enables a TurtleBot 4 robot to safely navigate in an office area.
+On a physical TurtleBot 4 in an office environment, VISION-SLS uses onboard RGB feedback to track the planned trajectory while respecting input limits and collision-avoidance constraints. 
+Across real-world runs, the robot remains inside the computed reachable tubes, demonstrating safe perception-based output-feedback control on hardware.
 </p>
 
 <h2>BibTeX</h2>
